@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import Typewriter from 'typewriter-effect';
 
 interface ContentAreaProps {
   activeItem: string;
@@ -77,7 +78,48 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
 
   const content: Record<string, JSX.Element> = {
     'About Me': (
-      <div className="space-y-6">
+      <div className="space-y-8">
+        {/* Hero Section - Matching Navbar Profile */}
+        <div className="flex items-center gap-6 lg:gap-8 mb-12 pb-12 border-b border-gray-800/50">
+          {/* Circular Profile Picture with Solid Color Segments Border */}
+          <div className="relative flex-shrink-0">
+            <div 
+              className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-full p-[4px]"
+              style={{
+                background: 'conic-gradient(from 0deg, #ef4444 0deg 72deg, #f97316 72deg 144deg, #eab308 144deg 216deg, #22c55e 216deg 288deg, #3b82f6 288deg 360deg)'
+              }}
+            >
+              <div className="w-full h-full rounded-full bg-[#1a1a1a] p-[3px]">
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 flex items-center justify-center overflow-hidden ring-2 ring-gray-700/50">
+                  {/* Placeholder for profile image - you can replace with actual image */}
+                  <div className="text-6xl sm:text-7xl lg:text-8xl">😺</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Terminal-style Text - Side by Side */}
+          <div className="flex flex-col justify-center">
+            <div className="font-mono w-full relative">
+              <div className="text-2xl sm:text-3xl lg:text-4xl text-white min-h-[2.5rem] sm:min-h-[3rem] lg:min-h-[3.5rem] flex items-center justify-center relative">
+                <span className="text-gray-400 absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none">⌞</span>
+                <div className="w-[400px] sm:w-[500px] lg:w-[600px] text-center">
+                  <Typewriter
+                    options={{
+                      strings: ['Hello, I\'m John Vincent.'],
+                      autoStart: true,
+                      loop: true,
+                      cursor: "|",
+                    }}
+                  />
+                </div>
+                <span className="text-gray-400 absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">⌝</span>
+              </div>
+            </div>
+            <p className="text-base sm:text-lg lg:text-xl text-gray-400 font-light mt-4">Developer & Designer</p>
+          </div>
+        </div>
+
         <p className="text-gray-300 leading-relaxed">
           Welcome to my portfolio! I'm a passionate developer and designer who loves creating 
           beautiful and functional digital experiences. With a strong foundation in modern web 
