@@ -101,15 +101,6 @@
 
 /* Custom Scrollbar Styles */
 @layer base {
-  /* Hide scrollbar for sidebar */
-  aside::-webkit-scrollbar {
-    display: none;
-  }
-  
-  aside {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
   /* Webkit browsers (Chrome, Safari, Edge) */
   *::-webkit-scrollbar {
     width: 8px;
@@ -138,5 +129,15 @@
   * {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  }
+
+  /* Hide scrollbar for aside elements (sidebar) */
+  aside::-webkit-scrollbar {
+    display: none;
+  }
+  
+  aside {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
 }

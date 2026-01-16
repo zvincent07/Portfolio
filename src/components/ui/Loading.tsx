@@ -24,8 +24,12 @@ export function Loading() {
               animation: 'spin 2s linear infinite'
             }}
           >
-            <div className="w-full h-full rounded-full bg-[#1a1a1a] flex items-center justify-center">
-              <div className="text-4xl">😺</div>
+            <div className="w-full h-full rounded-full bg-[#1a1a1a] flex items-center justify-center overflow-hidden">
+              <img 
+                src="/images/background/Joan Alter.png" 
+                alt="Loading" 
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>

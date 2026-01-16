@@ -1,11 +1,5 @@
 import React from 'react';
 
-const MenuIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-  </svg>
-);
-
 const CloseIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -137,19 +131,19 @@ export function Sidebar({ activeItem, onNavChange, isOpen = true, onToggle }: Si
         />
       )}
 
-      {/* Mobile Menu Button */}
-      <button
-        onClick={onToggle}
-        className="lg:hidden fixed top-4 right-4 z-50 w-10 h-10 flex items-center justify-center text-white"
-        aria-label="Toggle menu"
-      >
-        {isOpen ? <CloseIcon /> : <MenuIcon />}
-      </button>
-
-      {/* Sidebar */}
-      <aside className={`fixed right-0 top-0 bottom-0 w-full sm:w-96 lg:w-80 lg:right-16 lg:top-16 lg:bottom-16 bg-[#1a1a1a] lg:bg-black/20 lg:backdrop-blur-xl lg:border-0 flex flex-col p-6 sm:p-8 lg:p-10 overflow-y-auto lg:shadow-2xl transition-transform duration-300 z-40 ${
+      {/* Sidebar - Mobile Bottom Sheet / Desktop Sidebar */}
+      <aside className={`fixed right-0 top-0 bottom-0 w-full sm:w-96 lg:w-80 lg:right-16 lg:top-16 lg:bottom-16 bg-[#1a1a1a] lg:bg-[#1a1a1a]/95 lg:backdrop-blur-sm lg:border lg:border-gray-800/50 flex flex-col p-6 sm:p-8 lg:p-10 overflow-y-auto lg:shadow-2xl transition-transform duration-300 z-40 ${
         isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'
       }`}>
+        {/* Close Button - Mobile Only */}
+        <button
+          onClick={onToggle}
+          className="lg:hidden absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors z-50"
+          aria-label="Close menu"
+        >
+          <CloseIcon className="w-5 h-5" />
+        </button>
+
         {/* Profile Section - Horizontal Layout */}
         <div className="mb-6 lg:mb-8">
           <div className="flex items-center gap-3 lg:gap-4 mb-4">
@@ -163,8 +157,11 @@ export function Sidebar({ activeItem, onNavChange, isOpen = true, onToggle }: Si
               >
                 <div className="w-full h-full rounded-full bg-[#1a1a1a] p-[2px]">
                   <div className="w-full h-full rounded-full bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 flex items-center justify-center overflow-hidden ring-2 ring-gray-700/50">
-                    {/* Placeholder for profile image - you can replace with actual image */}
-                    <div className="text-4xl">😺</div>
+                    <img 
+                      src="/images/background/Joan Alter.png" 
+                      alt="Profile" 
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
@@ -172,8 +169,8 @@ export function Sidebar({ activeItem, onNavChange, isOpen = true, onToggle }: Si
             
             {/* Name and Title - Side by Side */}
             <div className="flex flex-col justify-center">
-              <h2 className="text-xl font-bold text-white mb-0.5 tracking-tight">Your Name</h2>
-              <p className="text-xs text-gray-400 font-light">Developer & Designer</p>
+              <h2 className="text-xl font-bold text-white mb-0.5 tracking-tight">zvincent07</h2>
+              <p className="text-xs text-gray-400 font-light">Dev & Analyst</p>
             </div>
           </div>
         </div>

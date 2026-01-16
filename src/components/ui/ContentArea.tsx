@@ -57,12 +57,6 @@ const FigmaIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   </svg>
 );
 
-const DesignIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-  </svg>
-);
-
 const ZapIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -72,6 +66,25 @@ const ZapIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
 const PenToolIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+  </svg>
+);
+
+// Database & Backend Icons
+const DatabaseIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+  </svg>
+);
+
+const PythonIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M14.5 2.5c0 .8-.7 1.5-1.5 1.5s-1.5-.7-1.5-1.5S12.2 1 13 1s1.5.7 1.5 1.5zm-1.5 1.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zm-1.5 1.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zm-1.5 1.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zm-1.5 1.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zm-1.5 1.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zm-1.5 1.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zm-1.5 1.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zm-1.5 1.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zm-1.5 1.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zm-1.5 1.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zm-1.5 1.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5z"/>
+  </svg>
+);
+
+const GitIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M23.546 10.93L13.067 0.45c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.44.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.083 1.903.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-2.007l-2.497-2.49c-.05.02-.1.041-.15.062l-4.803 4.795c-.645.223-1.39.083-1.906-.435-.72-.72-.72-1.884 0-2.604.719-.719 1.881-.719 2.6 0 .539.539.673 1.334.402 2.004l2.507 2.498c.05-.019.098-.039.146-.057l3.407 3.4c-.215.644-.07 1.398.44 1.889.515.516 1.258.658 1.903.438l2.658 2.66c.223.646.082 1.388-.435 1.903-.72.721-1.884.721-2.604 0-.72-.72-.72-1.884 0-2.604.512-.513 1.233-.658 1.937-.405l-2.658-2.66c-.645.223-1.387.082-1.902-.435-.72-.72-.72-1.884 0-2.604.719-.719 1.881-.719 2.6 0 .539.541.673 1.337.403 2.006l2.658 2.66c.05-.02.098-.04.146-.057l1.407-1.402-4.803-4.795c-.05.02-.1.04-.15.062L9.19 8.45c-.215.645-.07 1.398.44 1.89.516.515 1.258.657 1.903.437l2.658 2.658c.223.644.082 1.388-.435 1.902-.72.722-1.884.722-2.604 0-.72-.72-.72-1.884 0-2.604.512-.514 1.234-.658 1.937-.405l-2.658-2.658c-.645.22-1.387.08-1.902-.435-.72-.72-.72-1.884 0-2.604.719-.72 1.881-.72 2.6 0 .539.539.673 1.335.403 2.004L8.708 7.55l-2.76-2.76L.45 10.93c-.603.604-.603 1.582 0 2.186l10.479 10.478c.604.604 1.582.604 2.186 0l10.431-10.429c.605-.603.605-1.582 0-2.186z"/>
   </svg>
 );
 
@@ -153,8 +166,8 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
   const content: Record<string, React.ReactElement> = {
     'About Me': (
       <div className="space-y-8">
-        {/* Hero Section - Left Aligned */}
-        <div className="flex items-center gap-6 lg:gap-8 mb-8 pb-8 border-b border-gray-800/50">
+        {/* Hero Section - Stacked on Mobile, Side-by-side on Desktop */}
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 lg:gap-8 mb-8 pb-8 border-b border-gray-800/50">
           {/* Circular Profile Picture with Solid Color Segments Border */}
           <div className="relative flex-shrink-0">
             <div 
@@ -165,17 +178,20 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
             >
               <div className="w-full h-full rounded-full bg-[#1a1a1a] p-[3px]">
                 <div className="w-full h-full rounded-full bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 flex items-center justify-center overflow-hidden ring-2 ring-gray-700/50">
-                  {/* Placeholder for profile image - you can replace with actual image */}
-                  <div className="text-6xl sm:text-7xl lg:text-8xl">😺</div>
+                  <img 
+                    src="/images/profile/avatar.png" 
+                    alt="John Vincent" 
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
             </div>
           </div>
           
-          {/* Name and Title - Left Aligned */}
-          <div className="flex flex-col justify-center">
+          {/* Name and Title - Centered on Mobile, Left Aligned on Desktop */}
+          <div className="flex flex-col justify-center items-center sm:items-start text-center sm:text-left w-full sm:w-auto">
             <div className="font-mono w-full">
-              <div className="text-2xl sm:text-3xl lg:text-4xl text-white min-h-[2.5rem] sm:min-h-[3rem] lg:min-h-[3.5rem] flex items-center">
+              <div className="text-2xl sm:text-3xl lg:text-4xl text-white min-h-[2.5rem] sm:min-h-[3rem] lg:min-h-[3.5rem] flex items-center justify-center sm:justify-start">
                 <Typewriter
                   options={{
                     strings: ['Hello, I\'m John Vincent.'],
@@ -186,42 +202,39 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
                 />
               </div>
             </div>
-            <p className="text-base sm:text-lg lg:text-xl text-zinc-200 font-medium mt-4">Developer & Designer</p>
+            <p className="text-base sm:text-lg lg:text-xl text-zinc-200 font-medium mt-2 sm:mt-4">Developer & Business Analyst</p>
           </div>
         </div>
 
         <p className="text-gray-300 leading-relaxed max-w-4xl">
-          Welcome to my portfolio! I'm a passionate developer and designer who loves creating 
-          beautiful and functional digital experiences. With a strong foundation in modern web 
-          technologies, I strive to build applications that are both visually appealing and 
-          highly performant.
+          I am a Developer & Business Analyst who bridges the gap between technical complexity and business goals. 
+          I build scalable full-stack applications (MERN/PERN) with a focus on data integrity and seamless user experiences.
         </p>
 
         {/* Call to Action Buttons */}
-        <div className="flex flex-wrap gap-4 mt-6">
-          <button className="flex items-center gap-2 px-6 py-2 bg-white text-gray-900 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 group">
+        <div className="flex flex-wrap gap-3 mt-6">
+          <button className="flex items-center gap-2 px-4 py-2 text-sm bg-white text-gray-900 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 group">
             View My Work
-            <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </button>
-          <button className="flex items-center gap-2 px-6 py-2 bg-gray-800/50 text-white border border-gray-700 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200 group">
-            <DownloadIcon className="w-5 h-5 transition-transform group-hover:translate-y-0.5" />
+          <button className="flex items-center gap-2 px-4 py-2 text-sm bg-gray-800/50 text-white border border-gray-700 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200 group">
+            <DownloadIcon className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
             Download CV
           </button>
         </div>
 
-        {/* Skills Section - Grouped */}
-        <div className="space-y-4 mt-8">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500">Skills</h2>
+        {/* Skills Section - Reorganized */}
+        <div className="space-y-6 mt-8">
           
-          {/* Core Stack */}
+          {/* Frontend & Design */}
           <div className="space-y-2">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">Core Stack</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">Frontend & Design</h3>
             <div className="flex flex-wrap gap-2">
               {[
                 { name: 'React', color: 'bg-blue-500/20 text-blue-300 border-blue-500/40', icon: <ReactIcon /> },
                 { name: 'TypeScript', color: 'bg-blue-600/20 text-blue-200 border-blue-600/40', icon: <TypeScriptIcon /> },
-                { name: 'Node.js', color: 'bg-green-500/20 text-green-300 border-green-500/40', icon: <NodeIcon /> },
-                { name: 'MongoDB', color: 'bg-green-600/20 text-green-200 border-green-600/40', icon: <MongoIcon /> },
+                { name: 'Tailwind CSS', color: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40', icon: <TailwindIcon /> },
+                { name: 'Figma', color: 'bg-purple-500/20 text-purple-300 border-purple-500/40', icon: <FigmaIcon /> },
               ].map((skill) => (
                 <span key={skill.name} className={`px-3 py-1.5 ${skill.color} border rounded-lg text-xs font-medium flex items-center gap-1.5`}>
                   {skill.icon}
@@ -231,14 +244,17 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
             </div>
           </div>
 
-          {/* Tools */}
+          {/* Backend & Data */}
           <div className="space-y-2">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">Tools</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">Backend & Data</h3>
             <div className="flex flex-wrap gap-2">
               {[
-                { name: 'Tailwind CSS', color: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40', icon: <TailwindIcon /> },
-                { name: 'Figma', color: 'bg-purple-500/20 text-purple-300 border-purple-500/40', icon: <FigmaIcon /> },
-                { name: 'UI/UX Design', color: 'bg-pink-500/20 text-pink-300 border-pink-500/40', icon: <DesignIcon /> },
+                { name: 'Node.js', color: 'bg-green-500/20 text-green-300 border-green-500/40', icon: <NodeIcon /> },
+                { name: 'MongoDB', color: 'bg-green-600/20 text-green-200 border-green-600/40', icon: <MongoIcon /> },
+                { name: 'PostgreSQL', color: 'bg-blue-500/20 text-blue-300 border-blue-500/40', icon: <DatabaseIcon /> },
+                { name: 'MySQL', color: 'bg-orange-500/20 text-orange-300 border-orange-500/40', icon: <DatabaseIcon /> },
+                { name: 'Python', color: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40', icon: <PythonIcon /> },
+                { name: 'Git', color: 'bg-gray-500/20 text-gray-300 border-gray-500/40', icon: <GitIcon /> },
               ].map((skill) => (
                 <span key={skill.name} className={`px-3 py-1.5 ${skill.color} border rounded-lg text-xs font-medium flex items-center gap-1.5`}>
                   {skill.icon}
@@ -250,18 +266,18 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
         </div>
 
         {/* Refined Focus Section */}
-        <div className="mt-4 pt-5 border-t border-zinc-800 flex items-center gap-4 text-sm">
-          <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest">
+        <div className="mt-6 pt-6 border-t border-zinc-800/50 flex items-center gap-4 text-sm">
+          <span className="text-xs font-bold text-zinc-600 uppercase tracking-widest">
             Current Focus
           </span>
           
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-zinc-300 px-2 py-1 rounded-md bg-zinc-900/50 border border-zinc-800/50">
+            <div className="flex items-center gap-2 text-zinc-400 px-2 py-1 rounded-md bg-zinc-900/50 border border-zinc-800/50">
               <ZapIcon className="w-3.5 h-3.5 text-yellow-500" />
               <span>Next.js Patterns</span>
             </div>
             
-            <div className="flex items-center gap-2 text-zinc-300 px-2 py-1 rounded-md bg-zinc-900/50 border border-zinc-800/50">
+            <div className="flex items-center gap-2 text-zinc-400 px-2 py-1 rounded-md bg-zinc-900/50 border border-zinc-800/50">
               <PenToolIcon className="w-3.5 h-3.5 text-purple-500" />
               <span>Design Systems</span>
             </div>
@@ -531,7 +547,7 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
               sectionRefs.current[section] = el as HTMLDivElement | null;
             }}
             id={`section-${section.toLowerCase().replace(/\s+/g, '-')}`}
-            className="flex flex-col justify-start items-start p-4 sm:p-6 md:p-8 lg:p-12 pb-8 sm:pb-12"
+            className="flex flex-col justify-start items-start pt-6 pb-8 px-4 sm:pt-8 sm:pb-12 sm:px-6 md:px-8 lg:pt-12 lg:px-12"
           >
             {section !== 'About Me' && (
               <h1 
