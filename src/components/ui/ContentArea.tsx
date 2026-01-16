@@ -1,5 +1,79 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Typewriter from 'typewriter-effect';
+
+// Icon components for CTAs
+const ArrowRightIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+  </svg>
+);
+
+const DownloadIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+  </svg>
+);
+
+// Tech Icons
+const ReactIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <circle cx="12" cy="12" r="2" fill="currentColor"/>
+    <path stroke="currentColor" strokeWidth="1" fill="none" d="M12 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2zm-8 0a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2zm16 0a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2z"/>
+    <ellipse cx="12" cy="12" rx="11" ry="4.2" stroke="currentColor" strokeWidth="1" fill="none"/>
+    <ellipse cx="12" cy="12" rx="11" ry="4.2" stroke="currentColor" strokeWidth="1" fill="none" transform="rotate(60 12 12)"/>
+    <ellipse cx="12" cy="12" rx="11" ry="4.2" stroke="currentColor" strokeWidth="1" fill="none" transform="rotate(120 12 12)"/>
+  </svg>
+);
+
+const TypeScriptIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <rect x="2" y="2" width="20" height="20" rx="2" fill="#3178C6"/>
+    <path d="M13.5 11.5v-1h-3v1h1v5h-1v1h3v-1h-1v-5zm4-1h-1v7h1v-7zm-7-1h-1v1h.5v6h-1v1h2v-1h-.5v-6h.5v-1z" fill="white"/>
+  </svg>
+);
+
+const NodeIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.236,0.228-0.236h1.049c0.124,0,0.228,0.094,0.228,0.236v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.648-0.375-1.281-1.296-1.281-2.202V6.921 c0-0.903,0.633-1.831,1.281-2.216l8.795-5.082c0.649-0.375,1.703-0.375,2.35,0l8.794,5.082c0.648,0.38,1.282,1.313,1.282,2.216 v9.554c0,0.894-0.634,1.829-1.282,2.218l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z" fill="#339933"/>
+    <path d="M8.625,15.933c0-0.036,0.017-0.123,0.033-0.18c0.163-0.551,0.549-1.003,1.111-1.301 c0.562-0.297,1.119-0.446,1.67-0.446c0.55,0,0.787,0.111,1.003,0.223c0.216,0.111,0.36,0.26,0.36,0.445c0,0.416-0.324,0.703-0.972,0.859 c-0.649,0.156-1.536,0.341-2.663,0.556c-0.562,0.108-1.003,0.26-1.323,0.456c-0.32,0.196-0.48,0.445-0.48,0.747 c0,0.551,0.433,0.972,1.3,1.263c0.866,0.29,1.893,0.436,3.08,0.436c1.188,0,2.188-0.145,3-0.436c0.813-0.29,1.219-0.703,1.219-1.239 c0-0.26-0.108-0.48-0.324-0.66c-0.216-0.18-0.52-0.324-0.912-0.432c-0.393-0.108-0.912-0.216-1.56-0.324 c-0.649-0.108-1.188-0.216-1.62-0.324c-0.433-0.108-0.747-0.26-0.943-0.456C8.717,16.189,8.625,16.069,8.625,15.933z" fill="white"/>
+  </svg>
+);
+
+const MongoIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.533 3.682-4.533 10.02 0 7.029 5.597 11.32 6.512 11.835.913.52 1.652.302 1.983-.43.52-1.17 2.388-6.51 2.388-6.51.364-1.25.179-1.733-.898-1.733-.52 0-.792.07-1.112.18-.064-.495-.104-1.06-.135-1.53-.011-.204-.02-.38-.02-.52 0-.282.024-.42.024-.42s.688.27 1.975.405c.52.054 1.2.06 1.897.06.697 0 1.377-.006 1.897-.06 1.287-.135 1.975-.405 1.975-.405s.024.138.024.42c0 .14-.009.316-.02.52-.031.47-.071 1.035-.135 1.53-.32-.11-.592-.18-1.112-.18-1.077 0-1.262.483-.898 1.733 0 0 1.868 5.34 2.388 6.51.331.732 1.07.95 1.983.43.915-.515 6.512-4.806 6.512-11.835 0-6.338-3.81-9.454-4.533-10.02-.468-.499-.487-.689-.523-1.184-.205.486-.455 1.046-.735 1.44-.321.701-3.31 2.535-4.573 8.115z" fill="#47A248"/>
+  </svg>
+);
+
+const TailwindIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 6c-2.67 0-4.33 1.33-5 4 1-1.33 2.17-1.83 3.5-1.5.76.19 1.31.74 1.91 1.35.98 1.01 2.12 2.19 4.59 2.19 2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.31-.74-1.91-1.35C15.61 7.15 14.47 6 12 6zm-5 6c-2.67 0-4.33 1.33-5 4 1-1.33 2.17-1.83 3.5-1.5.76.19 1.31.74 1.91 1.35.98 1.01 2.12 2.19 4.59 2.19 2.67 0 4.33-1.33 5-4-1 1.33-2.17 1.83-3.5 1.5-.76-.19-1.31-.74-1.91-1.35C10.61 13.15 9.47 12 7 12z" fill="#06B6D4"/>
+  </svg>
+);
+
+const FigmaIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.48 2.005 4.48 4.49s-2.004 4.491-4.48 4.491zM12.264 7.51h3.588c1.665 0 3.013-1.349 3.013-3.01s-1.349-3.01-3.013-3.01h-3.588V7.51zm0 1.471H8.352c-2.476 0-4.48-2.005-4.48-4.49S5.876 0 8.352 0h3.912v8.981zm-3.912-7.51c-1.665 0-3.013 1.349-3.013 3.01s1.349 3.01 3.013 3.01h3.912V1.471H8.352zm3.912 15.019H8.352c-2.476 0-4.48-2.005-4.48-4.49s2.004-4.491 4.48-4.491h3.912v8.981zM8.352 8.981c-1.665 0-3.013 1.349-3.013 3.01s1.349 3.01 3.013 3.01h3.912V8.981H8.352zm4.588 7.509H8.352c-2.476 0-4.48-2.005-4.48-4.49s2.004-4.491 4.48-4.491h4.588c2.476 0 4.48 2.005 4.48 4.491s-2.004 4.49-4.48 4.49zm0-8.981H8.352c-1.665 0-3.013 1.349-3.013 3.01s1.349 3.01 3.013 3.01h4.588c1.665 0 3.013-1.349 3.013-3.01s-1.349-3.01-3.013-3.01z" fill="#F24E1E"/>
+  </svg>
+);
+
+const DesignIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+  </svg>
+);
+
+const ZapIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+  </svg>
+);
+
+const PenToolIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+  </svg>
+);
 
 interface ContentAreaProps {
   activeItem: string;
@@ -76,11 +150,11 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
     }
   }, [activeItem]);
 
-  const content: Record<string, JSX.Element> = {
+  const content: Record<string, React.ReactElement> = {
     'About Me': (
       <div className="space-y-8">
-        {/* Hero Section - Matching Navbar Profile */}
-        <div className="flex items-center gap-6 lg:gap-8 mb-12 pb-12 border-b border-gray-800/50">
+        {/* Hero Section - Left Aligned */}
+        <div className="flex items-center gap-6 lg:gap-8 mb-8 pb-8 border-b border-gray-800/50">
           {/* Circular Profile Picture with Solid Color Segments Border */}
           <div className="relative flex-shrink-0">
             <div 
@@ -98,51 +172,100 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
             </div>
           </div>
           
-          {/* Terminal-style Text - Side by Side */}
+          {/* Name and Title - Left Aligned */}
           <div className="flex flex-col justify-center">
-            <div className="font-mono w-full relative">
-              <div className="text-2xl sm:text-3xl lg:text-4xl text-white min-h-[2.5rem] sm:min-h-[3rem] lg:min-h-[3.5rem] flex items-center justify-center relative">
-                <span className="text-gray-400 absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none">⌞</span>
-                <div className="w-[400px] sm:w-[500px] lg:w-[600px] text-center">
-                  <Typewriter
-                    options={{
-                      strings: ['Hello, I\'m John Vincent.'],
-                      autoStart: true,
-                      loop: true,
-                      cursor: "|",
-                    }}
-                  />
-                </div>
-                <span className="text-gray-400 absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">⌝</span>
+            <div className="font-mono w-full">
+              <div className="text-2xl sm:text-3xl lg:text-4xl text-white min-h-[2.5rem] sm:min-h-[3rem] lg:min-h-[3.5rem] flex items-center">
+                <Typewriter
+                  options={{
+                    strings: ['Hello, I\'m John Vincent.'],
+                    autoStart: true,
+                    loop: true,
+                    cursor: "|",
+                  }}
+                />
               </div>
             </div>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-400 font-light mt-4">Developer & Designer</p>
+            <p className="text-base sm:text-lg lg:text-xl text-zinc-200 font-medium mt-4">Developer & Designer</p>
           </div>
         </div>
 
-        <p className="text-gray-300 leading-relaxed">
+        <p className="text-gray-300 leading-relaxed max-w-4xl">
           Welcome to my portfolio! I'm a passionate developer and designer who loves creating 
           beautiful and functional digital experiences. With a strong foundation in modern web 
           technologies, I strive to build applications that are both visually appealing and 
           highly performant.
         </p>
-        <div className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">Skills</h2>
-          <div className="flex flex-wrap gap-2">
-            {['React', 'TypeScript', 'Node.js', 'MongoDB', 'Tailwind CSS', 'Figma', 'UI/UX Design'].map((skill) => (
-              <span key={skill} className="px-3 py-1 bg-gray-800/50 text-gray-300 rounded text-sm">
-                {skill}
-              </span>
-            ))}
+
+        {/* Call to Action Buttons */}
+        <div className="flex flex-wrap gap-4 mt-6">
+          <button className="flex items-center gap-2 px-6 py-2 bg-white text-gray-900 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 group">
+            View My Work
+            <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          </button>
+          <button className="flex items-center gap-2 px-6 py-2 bg-gray-800/50 text-white border border-gray-700 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200 group">
+            <DownloadIcon className="w-5 h-5 transition-transform group-hover:translate-y-0.5" />
+            Download CV
+          </button>
+        </div>
+
+        {/* Skills Section - Grouped */}
+        <div className="space-y-4 mt-8">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-500">Skills</h2>
+          
+          {/* Core Stack */}
+          <div className="space-y-2">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">Core Stack</h3>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { name: 'React', color: 'bg-blue-500/20 text-blue-300 border-blue-500/40', icon: <ReactIcon /> },
+                { name: 'TypeScript', color: 'bg-blue-600/20 text-blue-200 border-blue-600/40', icon: <TypeScriptIcon /> },
+                { name: 'Node.js', color: 'bg-green-500/20 text-green-300 border-green-500/40', icon: <NodeIcon /> },
+                { name: 'MongoDB', color: 'bg-green-600/20 text-green-200 border-green-600/40', icon: <MongoIcon /> },
+              ].map((skill) => (
+                <span key={skill.name} className={`px-3 py-1.5 ${skill.color} border rounded-lg text-xs font-medium flex items-center gap-1.5`}>
+                  {skill.icon}
+                  {skill.name}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Tools */}
+          <div className="space-y-2">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500">Tools</h3>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { name: 'Tailwind CSS', color: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40', icon: <TailwindIcon /> },
+                { name: 'Figma', color: 'bg-purple-500/20 text-purple-300 border-purple-500/40', icon: <FigmaIcon /> },
+                { name: 'UI/UX Design', color: 'bg-pink-500/20 text-pink-300 border-pink-500/40', icon: <DesignIcon /> },
+              ].map((skill) => (
+                <span key={skill.name} className={`px-3 py-1.5 ${skill.color} border rounded-lg text-xs font-medium flex items-center gap-1.5`}>
+                  {skill.icon}
+                  {skill.name}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">Interests</h2>
-          <p className="text-gray-300 leading-relaxed">
-            When I'm not coding, I enjoy exploring new technologies, contributing to open-source 
-            projects, and continuously learning to stay at the forefront of web development. 
-            I'm also passionate about design systems and creating reusable component libraries.
-          </p>
+
+        {/* Refined Focus Section */}
+        <div className="mt-4 pt-5 border-t border-zinc-800 flex items-center gap-4 text-sm">
+          <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest">
+            Current Focus
+          </span>
+          
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-zinc-300 px-2 py-1 rounded-md bg-zinc-900/50 border border-zinc-800/50">
+              <ZapIcon className="w-3.5 h-3.5 text-yellow-500" />
+              <span>Next.js Patterns</span>
+            </div>
+            
+            <div className="flex items-center gap-2 text-zinc-300 px-2 py-1 rounded-md bg-zinc-900/50 border border-zinc-800/50">
+              <PenToolIcon className="w-3.5 h-3.5 text-purple-500" />
+              <span>Design Systems</span>
+            </div>
+          </div>
         </div>
       </div>
     ),
@@ -399,34 +522,34 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
 
   return (
     <div>
-      {sections.map((section, index) => {
+      {sections.map((section) => {
         const isActive = activeItem === section;
         return (
           <section
             key={section}
             ref={(el) => {
-              sectionRefs.current[section] = el;
+              sectionRefs.current[section] = el as HTMLDivElement | null;
             }}
             id={`section-${section.toLowerCase().replace(/\s+/g, '-')}`}
-            className="min-h-screen flex flex-col justify-start items-center p-4 sm:p-6 md:p-8 lg:p-12 pb-16 sm:pb-20 scroll-snap-start"
-            style={{
-              scrollSnapAlign: 'start',
-              scrollSnapStop: 'normal'
-            }}
+            className="flex flex-col justify-start items-start p-4 sm:p-6 md:p-8 lg:p-12 pb-8 sm:pb-12"
           >
-            <h1 
-              className="text-white text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 transition-all duration-500 text-center w-full px-2"
-              style={{
-                opacity: isActive ? 1 : 0.3,
-                transform: isActive ? 'translateX(0)' : 'translateX(-20px)'
-              }}
-            >
-              {section}
-            </h1>
+            {section !== 'About Me' && (
+              <h1 
+                className="text-white text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6 transition-all duration-500 w-full"
+                style={{
+                  opacity: isActive ? 1 : 0,
+                  visibility: isActive ? 'visible' : 'hidden',
+                  transform: isActive ? 'translateX(0)' : 'translateX(-20px)'
+                }}
+              >
+                {section}
+              </h1>
+            )}
             <div 
-              className="space-y-6 transition-all duration-700 w-full max-w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl"
+              className="space-y-6 transition-all duration-700 w-full max-w-4xl mb-12"
               style={{
-                opacity: isActive ? 1 : 0.4,
+                opacity: isActive ? 1 : 0,
+                visibility: isActive ? 'visible' : 'hidden',
                 transform: isActive ? 'translateY(0)' : 'translateY(20px)'
               }}
             >

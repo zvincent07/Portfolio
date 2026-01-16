@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 const MenuIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -147,7 +147,7 @@ export function Sidebar({ activeItem, onNavChange, isOpen = true, onToggle }: Si
       </button>
 
       {/* Sidebar */}
-      <aside className={`fixed right-0 top-0 bottom-0 w-full sm:w-96 lg:w-80 lg:right-16 lg:top-16 lg:bottom-16 bg-[#1a1a1a] lg:bg-[#1a1a1a]/95 lg:backdrop-blur-sm lg:border lg:border-gray-800/50 flex flex-col p-6 sm:p-8 lg:p-10 overflow-y-auto lg:shadow-2xl transition-transform duration-300 z-40 ${
+      <aside className={`fixed right-0 top-0 bottom-0 w-full sm:w-96 lg:w-80 lg:right-16 lg:top-16 lg:bottom-16 bg-[#1a1a1a] lg:bg-black/20 lg:backdrop-blur-xl lg:border-0 flex flex-col p-6 sm:p-8 lg:p-10 overflow-y-auto lg:shadow-2xl transition-transform duration-300 z-40 ${
         isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'
       }`}>
         {/* Profile Section - Horizontal Layout */}

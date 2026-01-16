@@ -3,24 +3,11 @@ import { Sidebar } from './components/ui/Sidebar';
 import { ContentArea } from './components/ui/ContentArea';
 import { Loading } from './components/ui/Loading';
 
-const sections = [
-  'About Me',
-  'Education',
-  'Projects',
-  'Experience',
-  'Tools',
-  'Micro Credentials',
-  'Events',
-  'Contact Me'
-];
-
 function App() {
   const [activeNavItem, setActiveNavItem] = useState('About Me');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const mainRef = useRef<HTMLElement>(null);
-  const isScrollingRef = useRef(false);
-  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Handle loading animation on mount
   useEffect(() => {
@@ -59,62 +46,8 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Handle scroll wheel for section navigation
-  useEffect(() => {
-    const main = mainRef.current;
-    if (!main) return;
-
-    let scrollAccumulator = 0;
-    const SCROLL_THRESHOLD = 50; // Minimum scroll delta to trigger navigation
-
-    const handleWheel = (e: WheelEvent) => {
-      if (isScrollingRef.current) {
-        e.preventDefault();
-        return;
-      }
-
-      scrollAccumulator += Math.abs(e.deltaY);
-      
-      // Clear existing timeout
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-
-      // If scroll is significant, navigate to next/previous section
-      if (scrollAccumulator > SCROLL_THRESHOLD) {
-        const currentIndex = sections.indexOf(activeNavItem);
-        const direction = e.deltaY > 0 ? 1 : -1;
-        const nextIndex = Math.max(0, Math.min(sections.length - 1, currentIndex + direction));
-        
-        if (nextIndex !== currentIndex) {
-          isScrollingRef.current = true;
-          setActiveNavItem(sections[nextIndex]);
-          
-          // Reset after animation completes
-          setTimeout(() => {
-            isScrollingRef.current = false;
-          }, 800);
-        }
-        
-        scrollAccumulator = 0;
-        e.preventDefault();
-      }
-
-      // Reset accumulator after a short delay
-      scrollTimeoutRef.current = setTimeout(() => {
-        scrollAccumulator = 0;
-      }, 150);
-    };
-
-    main.addEventListener('wheel', handleWheel, { passive: false });
-    
-    return () => {
-      main.removeEventListener('wheel', handleWheel);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, [activeNavItem]);
+  // Handle scroll wheel for section navigation (disabled for smoother scrolling)
+  // Removed aggressive scroll handling to allow natural smooth scrolling
 
   const handleNavChange = (item: string) => {
     setActiveNavItem(item);
@@ -125,9 +58,7 @@ function App() {
   };
 
   const handleSectionChange = (section: string) => {
-    if (!isScrollingRef.current) {
-      setActiveNavItem(section);
-    }
+    setActiveNavItem(section);
   };
 
   return (
@@ -144,15 +75,17 @@ function App() {
       {/* Content Area */}
       <main 
         ref={mainRef}
-        className="fixed inset-0 lg:top-16 lg:bottom-16 lg:left-16 lg:right-[416px] bg-transparent lg:bg-[#1a1a1a]/95 lg:backdrop-blur-sm lg:border lg:border-gray-800/50 lg:shadow-2xl overflow-y-auto overflow-x-hidden z-10"
+        className="fixed inset-0 lg:top-16 lg:bottom-16 lg:left-16 lg:right-[416px] bg-transparent lg:bg-[#1a1a1a]/95 lg:backdrop-blur-sm lg:shadow-2xl overflow-y-auto overflow-x-hidden z-10"
         style={{
           WebkitOverflowScrolling: 'touch',
-          overscrollBehavior: 'contain',
+          overscrollBehavior: 'auto',
           scrollBehavior: 'smooth',
-          scrollPaddingTop: '0'
+          scrollPaddingTop: '0',
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(255, 255, 255, 0.1) transparent'
         }}
       >
-        <div className="w-full max-w-full sm:max-w-2xl md:max-w-4xl lg:max-w-5xl mx-auto px-4 sm:px-6 md:px-8 lg:px-0">
+        <div className="w-full max-w-full sm:max-w-3xl md:max-w-5xl lg:max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-0">
           <ContentArea activeItem={activeNavItem} onSectionChange={handleSectionChange} />
         </div>
       </main>
@@ -164,7 +97,7 @@ function App() {
         isOpen={sidebarOpen}
         onToggle={() => setSidebarOpen(!sidebarOpen)}
       />
-    </div>
+      </div>
   );
 }
 
