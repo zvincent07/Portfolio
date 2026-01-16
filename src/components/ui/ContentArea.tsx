@@ -547,7 +547,7 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
               sectionRefs.current[section] = el as HTMLDivElement | null;
             }}
             id={`section-${section.toLowerCase().replace(/\s+/g, '-')}`}
-            className="flex flex-col justify-start items-start pt-6 pb-8 px-4 sm:pt-8 sm:pb-12 sm:px-6 md:px-8 lg:pt-12 lg:px-12"
+            className="flex flex-col justify-start items-start pt-2 pb-8 px-4 sm:pt-4 sm:pb-12 sm:px-6 md:px-8 lg:pt-6 lg:px-12"
           >
             {section !== 'About Me' && (
               <h1 
