@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 import Typewriter from 'typewriter-effect';
 import emailjs from '@emailjs/browser';
 
@@ -200,10 +201,11 @@ function ContactForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // EmailJS Configuration
-  const SERVICE_ID = "service_nthazq8";
-  const TEMPLATE_ID = "template_u19k2rv";
+  // EmailJS Configuration - Make sure these match your EmailJS dashboard
+  const SERVICE_ID = "service_cln2e3r";
+  const TEMPLATE_ID = "template_yetzp89";
   const PUBLIC_KEY = "F861GsSBkGVMj6g7o";
 
   // === FEATURE: CTRL+ENTER TO SEND ===
@@ -228,6 +230,7 @@ function ContactForm() {
   const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
     if (!formRef.current) return;
 
@@ -237,20 +240,47 @@ function ContactForm() {
         setSuccess(true);
         formRef.current?.reset();
         setTimeout(() => setSuccess(false), 5000);
-      }, (error) => {
+      }, (err) => {
         setLoading(false);
-        console.error(error);
-        alert("Failed to send. Please try again or email me directly.");
+        console.error('EmailJS Error:', err);
+        setError("Message failed to send. Try emailing directly instead.");
+        setTimeout(() => setError(null), 5000);
       });
   };
 
   return (
-    <div className="grid md:grid-cols-2 gap-8">
+    <>
+      {/* Error Toast - Rendered via Portal to document.body */}
+      {error && ReactDOM.createPortal(
+        <div className="fixed top-0 left-0 right-0 z-[9999] flex justify-center pt-4 px-4 pointer-events-none">
+          <div 
+            className="pointer-events-auto flex items-center gap-3 px-5 py-3 rounded-lg bg-zinc-900/95 border border-zinc-700 backdrop-blur-md shadow-2xl shadow-black/50"
+            style={{ animation: 'slideDown 0.3s ease-out' }}
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-red-500 font-mono text-xs">[ ERROR ]</span>
+              <span className="w-px h-4 bg-zinc-700"></span>
+            </div>
+            <p className="text-sm text-zinc-300">{error}</p>
+            <button 
+              onClick={() => setError(null)}
+              className="ml-2 p-1 text-zinc-500 hover:text-white hover:bg-zinc-800 rounded transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>,
+        document.body
+      )}
+      
+      <div className="grid md:grid-cols-2 gap-8">
         {/* LEFT: IDENTITY & ACTIONS */}
         <div className="space-y-6">
           <p className="text-zinc-400 leading-relaxed text-sm">
             Open to freelance opportunities, internships, and technical consulting. 
-            <br />Based in Batangas, Philippines (GMT+8).
+            <br />Based in Batangas, City of Lipa, Philippines (GMT+8).
           </p>
 
           {/* THE "TERMINAL" EMAIL CARD */}
@@ -378,12 +408,113 @@ function ContactForm() {
             )}
           </button>
         </form>
-    </div>
+      </div>
+    </>
   );
 }
 
-export function ContentArea({ activeItem, onSectionChange: _onSectionChange }: ContentAreaProps) {
-  void _onSectionChange;
+export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
+  const isNavClickRef = useRef(false);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prevActiveItemRef = useRef(activeItem);
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['About Me']));
+
+  // Scroll to section when activeItem changes (from nav click)
+  useEffect(() => {
+    // Only scroll if this is a nav click (activeItem changed externally)
+    if (prevActiveItemRef.current !== activeItem) {
+      isNavClickRef.current = true;
+      prevActiveItemRef.current = activeItem;
+      
+      const sectionId = `section-${activeItem.toLowerCase().replace(/\s+/g, '-')}`;
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Reset nav click flag after scroll completes
+        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+        scrollTimeoutRef.current = setTimeout(() => {
+          isNavClickRef.current = false;
+        }, 800);
+      }
+    }
+  }, [activeItem]);
+
+  // Track which section is in view and update nav + animations
+  useEffect(() => {
+    const sectionOrder = ['About Me', 'Projects', 'Experience', 'Education', 'Certifications', 'Contact'];
+    
+    // Observer for navbar highlight sync
+    const navObserver = new IntersectionObserver(
+      (entries) => {
+        // Skip nav updates during programmatic scrolling
+        if (isNavClickRef.current) return;
+        
+        // Find the most visible section
+        let mostVisibleSection = '';
+        let maxRatio = 0;
+        
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+            maxRatio = entry.intersectionRatio;
+            const sectionId = entry.target.id;
+            const sectionName = sectionOrder.find(
+              (name) => `section-${name.toLowerCase().replace(/\s+/g, '-')}` === sectionId
+            );
+            if (sectionName) {
+              mostVisibleSection = sectionName;
+            }
+          }
+        });
+        
+        if (mostVisibleSection && mostVisibleSection !== activeItem) {
+          prevActiveItemRef.current = mostVisibleSection;
+          onSectionChange(mostVisibleSection);
+        }
+      },
+      { threshold: [0.1, 0.3, 0.5, 0.7], rootMargin: '-10% 0px -10% 0px' }
+    );
+
+    // Observer for scroll animations - tracks entering AND leaving
+    const animationObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const sectionId = entry.target.id;
+          const sectionName = sectionOrder.find(
+            (name) => `section-${name.toLowerCase().replace(/\s+/g, '-')}` === sectionId
+          );
+          
+          if (sectionName) {
+            if (entry.isIntersecting) {
+              // Section entering viewport - show animation
+              setVisibleSections((prev) => new Set([...prev, sectionName]));
+            } else {
+              // Section leaving viewport - reset for next time
+              setVisibleSections((prev) => {
+                const newSet = new Set(prev);
+                newSet.delete(sectionName);
+                return newSet;
+              });
+            }
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '-5% 0px -5% 0px' }
+    );
+
+    sectionOrder.forEach((name) => {
+      const element = document.getElementById(`section-${name.toLowerCase().replace(/\s+/g, '-')}`);
+      if (element) {
+        navObserver.observe(element);
+        animationObserver.observe(element);
+      }
+    });
+
+    return () => {
+      navObserver.disconnect();
+      animationObserver.disconnect();
+    };
+  }, [activeItem, onSectionChange]);
 
   const content: Record<string, React.ReactElement> = {
     'About Me': (
@@ -701,7 +832,7 @@ export function ContentArea({ activeItem, onSectionChange: _onSectionChange }: C
       </div>
     ),
     'Experience': (
-      <div className="relative space-y-12">
+      <div className="relative space-y-0">
         {/* Timeline Line Container */}
         <div className="absolute left-3 top-0 bottom-0 w-0.5">
           {/* Solid Gradient Line (Past/History) */}
@@ -775,9 +906,9 @@ export function ContentArea({ activeItem, onSectionChange: _onSectionChange }: C
         </div>
 
         {/* Open to Work - Status Indicator */}
-        <div className="relative pl-8 group" style={{ opacity: 0.65 }}>
+        <div className="relative pl-8 group py-4" style={{ opacity: 0.65 }}>
           {/* Pulsing Status Dot (Live Signal) */}
-          <div className="absolute -left-[20px] top-1 z-10">
+          <div className="absolute -left-[20px] top-[1.5rem] z-10">
             <div className="relative flex items-center justify-center">
               {/* Outer Pulse Ring */}
               <div className="absolute w-3 h-3 rounded-full bg-emerald-500/40 animate-ping-slow" />
@@ -786,7 +917,7 @@ export function ContentArea({ activeItem, onSectionChange: _onSectionChange }: C
             </div>
           </div>
           
-          <h3 className="text-lg font-bold text-zinc-400">Open to Work</h3>
+          <h3 className="text-lg font-bold text-zinc-400 leading-tight">Open to Work</h3>
           <p className="text-zinc-500 text-sm mt-1">Ready for full-time opportunities or internships.</p>
         </div>
       </div>
@@ -898,37 +1029,50 @@ export function ContentArea({ activeItem, onSectionChange: _onSectionChange }: C
     'Contact': <ContactForm />
   };
 
-  const isContact = activeItem === 'Contact';
-  const currentContent = content[activeItem] || (
-    <p className="text-gray-300">Content coming soon...</p>
-  );
+  // Section order for scrollable layout
+  const sectionOrder = ['About Me', 'Projects', 'Experience', 'Education', 'Certifications', 'Contact'];
 
   return (
-    <section
-      id={`section-${activeItem.toLowerCase().replace(/\s+/g, '-')}`}
-      className={
-        isContact
-          ? "flex flex-col justify-start items-start pt-4 sm:pt-4 lg:pt-6 pb-16 px-4 sm:pb-20 sm:px-6 md:px-8 lg:px-12"
-          : "flex flex-col justify-start items-start pt-6 pb-16 px-4 sm:pt-6 sm:pb-20 sm:px-6 md:px-8 lg:pt-8 lg:px-12"
-      }
-      style={{ animation: 'fadeInUp 0.5s ease' }}
-    >
-      {activeItem !== 'About Me' && (
-        <h1
-          className={`text-white text-2xl sm:text-3xl lg:text-4xl font-bold w-full ${
-            isContact ? 'mb-2' : 'mb-3 sm:mb-4'
-          }`}
-        >
-          {activeItem}
-        </h1>
-      )}
-      <div
-        className={`w-full self-start ${
-          isContact ? 'max-w-full mt-0 mb-12' : 'max-w-4xl mb-12 space-y-6'
-        }`}
-      >
-        {currentContent}
-      </div>
-    </section>
+    <div className="flex flex-col">
+      {sectionOrder.map((sectionName) => {
+        const sectionContent = content[sectionName];
+        const isContactSection = sectionName === 'Contact';
+        
+        if (!sectionContent) return null;
+        
+        const isVisible = visibleSections.has(sectionName);
+        
+        return (
+          <section
+            key={sectionName}
+            id={`section-${sectionName.toLowerCase().replace(/\s+/g, '-')}`}
+            className={`
+              ${isContactSection
+                ? "flex flex-col justify-start items-start pt-4 sm:pt-4 lg:pt-6 pb-16 px-4 sm:pb-20 sm:px-6 md:px-8 lg:px-12 min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-8rem)]"
+                : "flex flex-col justify-start items-start pt-6 pb-16 px-4 sm:pt-6 sm:pb-20 sm:px-6 md:px-8 lg:pt-8 lg:px-12 min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-8rem)]"
+              }
+            `}
+          >
+            {sectionName !== 'About Me' && (
+              <h1
+                className={`text-white text-2xl sm:text-3xl lg:text-4xl font-bold w-full transition-all duration-500 ease-out ${
+                  isContactSection ? 'mb-2' : 'mb-3 sm:mb-4'
+                } ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-6 scale-95'}`}
+              >
+                {sectionName}
+              </h1>
+            )}
+            <div
+              className={`w-full self-start transition-all duration-700 ease-out delay-150 ${
+                isContactSection ? 'max-w-full mt-0 mb-12' : 'max-w-4xl mb-12 space-y-6'
+              } ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'}`}
+              style={{ transformOrigin: 'top center' }}
+            >
+              {sectionContent}
+            </div>
+          </section>
+        );
+      })}
+    </div>
   );
 }
