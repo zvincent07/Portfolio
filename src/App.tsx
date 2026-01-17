@@ -29,6 +29,14 @@ const BriefcaseIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
   </svg>
 );
 
+const GraduationIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14v7m0-7l-6.16-3.422a12.083 12.083 0 00-.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 006.824-2.998 12.078 12.078 0 00-.665-6.479L12 14z" />
+  </svg>
+);
+
 const ContactIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -69,7 +77,7 @@ function App() {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
         setSidebarOpen(true);
-        setScrollPaddingTop('2rem');
+        setScrollPaddingTop('0rem');
       } else {
         setSidebarOpen(false);
         setScrollPaddingTop('6rem'); // More padding on mobile to account for header (64px header + extra space)
@@ -85,8 +93,6 @@ function App() {
   // Removed aggressive scroll handling to allow natural smooth scrolling
 
   const handleNavChange = (item: string) => {
-    setActiveNavItem(item);
-
     const sectionId = `section-${item.toLowerCase().replace(/\s+/g, '-')}`;
     const element = document.getElementById(sectionId);
     if (element) {
@@ -99,6 +105,7 @@ function App() {
   };
 
   const handleSectionChange = (section: string) => {
+    if (activeNavItem === section) return;
     setActiveNavItem(section);
 
     const sectionId = `section-${section.toLowerCase().replace(/\s+/g, '-')}`;
@@ -147,11 +154,11 @@ function App() {
       {/* Content Area */}
       <main 
         ref={mainRef}
-        className="fixed inset-0 pt-16 pb-16 lg:pt-0 lg:pb-0 lg:top-16 lg:bottom-16 lg:left-16 lg:right-[416px] bg-transparent lg:bg-[#1a1a1a]/95 lg:backdrop-blur-sm lg:border lg:border-gray-800/50 lg:shadow-2xl overflow-y-auto overflow-x-hidden z-10 snap-y snap-mandatory"
+        className="fixed inset-0 pt-16 pb-16 lg:pt-0 lg:pb-0 lg:top-16 lg:bottom-16 lg:left-16 lg:right-[416px] bg-transparent lg:bg-[#1a1a1a]/95 lg:backdrop-blur-sm lg:border lg:border-gray-800/50 lg:shadow-2xl overflow-y-auto overflow-x-hidden z-10"
         style={{
           WebkitOverflowScrolling: 'touch',
           overscrollBehavior: 'auto',
-          scrollBehavior: 'smooth',
+          scrollBehavior: 'auto',
           scrollPaddingTop: scrollPaddingTop,
           scrollbarWidth: 'thin',
           scrollbarColor: 'rgba(255, 255, 255, 0.1) transparent'
@@ -169,6 +176,7 @@ function App() {
             { name: 'About Me', icon: <UserIcon className="w-5 h-5" /> },
             { name: 'Projects', icon: <DocumentIcon className="w-5 h-5" /> },
             { name: 'Experience', icon: <BriefcaseIcon className="w-5 h-5" /> },
+            { name: 'Education', icon: <GraduationIcon className="w-5 h-5" /> },
             { name: 'Contact', icon: <ContactIcon className="w-5 h-5" /> },
           ].map((item) => (
             <button
