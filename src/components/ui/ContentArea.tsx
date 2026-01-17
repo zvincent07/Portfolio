@@ -542,11 +542,17 @@ function ContactForm() {
       setSuccess(true);
       formRef.current?.reset();
       setTimeout(() => setSuccess(false), 10000);
-    } catch (err) {
+    } catch (err: unknown) {
       setLoading(false);
       console.error("EmailJS Error:", err);
-      const errText = (err as any)?.text ?? (err as any)?.message ?? "";
-      const status = (err as any)?.status;
+      const errorObj =
+        typeof err === "object" && err !== null ? (err as Record<string, unknown>) : null;
+      const errText =
+        (typeof errorObj?.text === "string" && errorObj.text) ||
+        (typeof errorObj?.message === "string" && errorObj.message) ||
+        "";
+      const status =
+        typeof errorObj?.status === "number" ? errorObj.status : undefined;
 
       const is412 =
         status === 412 ||
@@ -799,35 +805,9 @@ function ContactForm() {
 }
 
 export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
-  const isNavClickRef = useRef(false);
-  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const prevActiveItemRef = useRef(activeItem);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(
     new Set(["About Me"])
   );
-
-  // Scroll to section when activeItem changes (from nav click)
-  useEffect(() => {
-    // Only scroll if this is a nav click (activeItem changed externally)
-    if (prevActiveItemRef.current !== activeItem) {
-      isNavClickRef.current = true;
-      prevActiveItemRef.current = activeItem;
-
-      const sectionId = `section-${activeItem
-        .toLowerCase()
-        .replace(/\s+/g, "-")}`;
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
-
-        // Reset nav click flag after scroll completes
-        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-        scrollTimeoutRef.current = setTimeout(() => {
-          isNavClickRef.current = false;
-        }, 800);
-      }
-    }
-  }, [activeItem]);
 
   // Track which section is in view and update nav + animations
   useEffect(() => {
@@ -836,9 +816,6 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
     // Observer for navbar highlight sync
     const navObserver = new IntersectionObserver(
       (entries) => {
-        // Skip nav updates during programmatic scrolling
-        if (isNavClickRef.current) return;
-
         // Find the most visible section
         let mostVisibleSection = "";
         let maxRatio = 0;
@@ -858,8 +835,12 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
           }
         });
 
-        if (mostVisibleSection && mostVisibleSection !== activeItem) {
-          prevActiveItemRef.current = mostVisibleSection;
+        // Only switch highlight when one section is clearly dominant in view
+        if (
+          mostVisibleSection &&
+          mostVisibleSection !== activeItem &&
+          maxRatio >= 0.4
+        ) {
           onSectionChange(mostVisibleSection);
         }
       },
@@ -1654,7 +1635,7 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
             key={sectionName}
             id={`section-${sectionName.toLowerCase().replace(/\s+/g, "-")}`}
             className={`
-              ${
+              snap-start ${
                 isContactSection
                   ? "flex flex-col justify-start items-start pt-4 sm:pt-4 lg:pt-6 pb-16 px-4 sm:pb-20 sm:px-6 md:px-8 lg:px-12 min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-8rem)]"
                   : "flex flex-col justify-start items-start pt-6 pb-16 px-4 sm:pt-6 sm:pb-20 sm:px-6 md:px-8 lg:pt-8 lg:px-12 min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-8rem)]"
@@ -1663,7 +1644,7 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
           >
             {sectionName !== "About Me" && (
               <h1
-                className={`text-white text-2xl sm:text-3xl lg:text-4xl font-bold w-full transition-all duration-500 ease-out ${
+                className={`py-2 text-white text-2xl sm:text-3xl lg:text-4xl font-bold w-full transition-all duration-500 ease-out ${
                   isContactSection ? "mb-2" : "mb-3 sm:mb-4"
                 } ${
                   isVisible

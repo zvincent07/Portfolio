@@ -86,7 +86,13 @@ function App() {
 
   const handleNavChange = (item: string) => {
     setActiveNavItem(item);
-    // Close sidebar on mobile after selection
+
+    const sectionId = `section-${item.toLowerCase().replace(/\s+/g, '-')}`;
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
     if (window.innerWidth < 1024) {
       setSidebarOpen(false);
     }
@@ -94,6 +100,12 @@ function App() {
 
   const handleSectionChange = (section: string) => {
     setActiveNavItem(section);
+
+    const sectionId = `section-${section.toLowerCase().replace(/\s+/g, '-')}`;
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
@@ -135,7 +147,7 @@ function App() {
       {/* Content Area */}
       <main 
         ref={mainRef}
-        className="fixed inset-0 pt-16 pb-16 lg:pt-0 lg:pb-0 lg:top-16 lg:bottom-16 lg:left-16 lg:right-[416px] bg-transparent lg:bg-[#1a1a1a]/95 lg:backdrop-blur-sm lg:border lg:border-gray-800/50 lg:shadow-2xl overflow-y-auto overflow-x-hidden z-10"
+        className="fixed inset-0 pt-16 pb-16 lg:pt-0 lg:pb-0 lg:top-16 lg:bottom-16 lg:left-16 lg:right-[416px] bg-transparent lg:bg-[#1a1a1a]/95 lg:backdrop-blur-sm lg:border lg:border-gray-800/50 lg:shadow-2xl overflow-y-auto overflow-x-hidden z-10 snap-y snap-mandatory"
         style={{
           WebkitOverflowScrolling: 'touch',
           overscrollBehavior: 'auto',
@@ -161,10 +173,7 @@ function App() {
           ].map((item) => (
             <button
               key={item.name}
-              onClick={() => {
-                setActiveNavItem(item.name);
-                setSidebarOpen(false);
-              }}
+              onClick={() => handleNavChange(item.name)}
               className={`flex items-center justify-center px-3 py-2 rounded-lg transition-all ${
                 activeNavItem === item.name
                   ? 'text-white bg-gray-800/50'
