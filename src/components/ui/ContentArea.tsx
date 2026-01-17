@@ -113,6 +113,7 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
       {sectionOrder.map((sectionName) => {
         const sectionContent = content[sectionName];
         const isContactSection = sectionName === "Contact";
+        const isAboutSection = sectionName === "About Me";
 
         if (!sectionContent) return null;
 
@@ -126,7 +127,9 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
               snap-start scroll-mt-2 ${
                 isContactSection
                   ? "flex flex-col justify-start items-start pt-2 sm:pt-3 lg:pt-4 pb-16 px-4 sm:pb-20 sm:px-6 md:px-8 lg:px-12 min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-8rem)]"
-                  : "flex flex-col justify-start items-start pt-2 pb-16 px-4 sm:pt-3 sm:pb-20 sm:px-6 md:px-8 lg:pt-4 lg:px-12 min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-8rem)]"
+                  : isAboutSection
+                    ? "flex flex-col justify-start items-start pt-4 pb-16 px-4 sm:pt-6 sm:pb-20 sm:px-6 md:px-8 lg:pt-8 lg:px-12 min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-8rem)]"
+                    : "flex flex-col justify-start items-start pt-2 pb-16 px-4 sm:pt-3 sm:pb-20 sm:px-6 md:px-8 lg:pt-4 lg:px-12 min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-8rem)]"
               }
             `}
           >

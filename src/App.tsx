@@ -48,7 +48,8 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const mainRef = useRef<HTMLElement>(null);
-  const [scrollPaddingTop, setScrollPaddingTop] = useState('2rem');
+  const isWheelScrollingRef = useRef(false);
+  const [scrollPaddingTop, setScrollPaddingTop] = useState('4rem');
 
   // Handle loading animation on mount
   useEffect(() => {
@@ -80,7 +81,7 @@ function App() {
         setScrollPaddingTop('0rem');
       } else {
         setSidebarOpen(false);
-        setScrollPaddingTop('6rem'); // More padding on mobile to account for header (64px header + extra space)
+        setScrollPaddingTop('4rem');
       }
     };
     
@@ -89,8 +90,46 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Handle scroll wheel for section navigation (disabled for smoother scrolling)
-  // Removed aggressive scroll handling to allow natural smooth scrolling
+  useEffect(() => {
+    const container = mainRef.current;
+    if (!container) return;
+
+    const sectionOrder = ['About Me', 'Projects', 'Experience', 'Education', 'Contact'];
+
+    const handleWheel = (event: WheelEvent) => {
+      if (Math.abs(event.deltaY) < 10) return;
+      event.preventDefault();
+
+      if (isWheelScrollingRef.current) return;
+      isWheelScrollingRef.current = true;
+
+      const currentIndex = sectionOrder.indexOf(activeNavItem);
+      let nextIndex = currentIndex;
+
+      if (event.deltaY > 0 && currentIndex < sectionOrder.length - 1) {
+        nextIndex = currentIndex + 1;
+      } else if (event.deltaY < 0 && currentIndex > 0) {
+        nextIndex = currentIndex - 1;
+      }
+
+      if (nextIndex !== currentIndex) {
+        const nextSectionId = `section-${sectionOrder[nextIndex].toLowerCase().replace(/\s+/g, '-')}`;
+        const element = document.getElementById(nextSectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      setTimeout(() => {
+        isWheelScrollingRef.current = false;
+      }, 500);
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      container.removeEventListener('wheel', handleWheel as EventListener);
+    };
+  }, [activeNavItem]);
 
   const handleNavChange = (item: string) => {
     const sectionId = `section-${item.toLowerCase().replace(/\s+/g, '-')}`;
@@ -107,12 +146,6 @@ function App() {
   const handleSectionChange = (section: string) => {
     if (activeNavItem === section) return;
     setActiveNavItem(section);
-
-    const sectionId = `section-${section.toLowerCase().replace(/\s+/g, '-')}`;
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
   };
 
   return (
