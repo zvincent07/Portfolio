@@ -541,7 +541,7 @@ function ContactForm() {
       setLoading(false);
       setSuccess(true);
       formRef.current?.reset();
-      setTimeout(() => setSuccess(false), 5000);
+      setTimeout(() => setSuccess(false), 10000);
     } catch (err) {
       setLoading(false);
       console.error("EmailJS Error:", err);
@@ -571,6 +571,45 @@ function ContactForm() {
 
   return (
     <>
+      {success &&
+        ReactDOM.createPortal(
+          <div className="fixed top-0 left-0 right-0 z-[9999] flex justify-center pt-4 px-4 pointer-events-none">
+            <div
+              className="pointer-events-auto flex items-center gap-3 px-5 py-3 rounded-lg bg-zinc-900/95 border border-emerald-600/70 backdrop-blur-md shadow-2xl shadow-black/50"
+              style={{ animation: "slideDown 0.3s ease-out" }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-400 font-mono text-xs">
+                  [ SUCCESS ]
+                </span>
+                <span className="w-px h-4 bg-zinc-700"></span>
+              </div>
+              <p className="text-sm text-zinc-300">
+                Message sent successfully. I will get back to you soon.
+              </p>
+              <button
+                onClick={() => setSuccess(false)}
+                className="ml-2 p-1 text-zinc-500 hover:text-white hover:bg-zinc-800 rounded transition-colors"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
+
       {/* Error Toast - Rendered via Portal to document.body */}
       {error &&
         ReactDOM.createPortal(
