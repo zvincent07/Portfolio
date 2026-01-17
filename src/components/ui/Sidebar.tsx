@@ -96,13 +96,11 @@ interface SocialLink {
 
 const navItems: NavItem[] = [
   { label: 'About Me', icon: <UserIcon />, id: 'about-me' },
-  { label: 'Education', icon: <GraduationIcon />, id: 'education' },
   { label: 'Projects', icon: <DocumentIcon />, id: 'projects' },
   { label: 'Experience', icon: <BriefcaseIcon />, id: 'experience' },
-  { label: 'Tools', icon: <ToolsIcon />, id: 'tools' },
-  { label: 'Micro Credentials', icon: <BadgeIcon />, id: 'micro-credentials' },
-  { label: 'Events', icon: <UsersIcon />, id: 'events' },
-  { label: 'Contact Me', icon: <ContactIcon />, id: 'contact-me' },
+  { label: 'Education', icon: <GraduationIcon />, id: 'education' },
+  { label: 'Certifications', icon: <BadgeIcon />, id: 'certifications' },
+  { label: 'Contact', icon: <ContactIcon />, id: 'contact' },
 ];
 
 const socialLinks: SocialLink[] = [

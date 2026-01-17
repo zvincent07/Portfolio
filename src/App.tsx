@@ -40,6 +40,7 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const mainRef = useRef<HTMLElement>(null);
+  const [scrollPaddingTop, setScrollPaddingTop] = useState('2rem');
 
   // Handle loading animation on mount
   useEffect(() => {
@@ -63,13 +64,15 @@ function App() {
     };
   }, [isLoading]);
 
-  // Open sidebar by default on desktop
+  // Open sidebar by default on desktop and set responsive scroll padding
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
         setSidebarOpen(true);
+        setScrollPaddingTop('2rem');
       } else {
         setSidebarOpen(false);
+        setScrollPaddingTop('6rem'); // More padding on mobile to account for header (64px header + extra space)
       }
     };
     
@@ -137,7 +140,7 @@ function App() {
           WebkitOverflowScrolling: 'touch',
           overscrollBehavior: 'auto',
           scrollBehavior: 'smooth',
-          scrollPaddingTop: '4rem',
+          scrollPaddingTop: scrollPaddingTop,
           scrollbarWidth: 'thin',
           scrollbarColor: 'rgba(255, 255, 255, 0.1) transparent'
         }}
@@ -154,7 +157,7 @@ function App() {
             { name: 'About Me', icon: <UserIcon className="w-5 h-5" /> },
             { name: 'Projects', icon: <DocumentIcon className="w-5 h-5" /> },
             { name: 'Experience', icon: <BriefcaseIcon className="w-5 h-5" /> },
-            { name: 'Contact Me', icon: <ContactIcon className="w-5 h-5" /> },
+            { name: 'Contact', icon: <ContactIcon className="w-5 h-5" /> },
           ].map((item) => (
             <button
               key={item.name}
