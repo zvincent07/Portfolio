@@ -99,7 +99,6 @@ const navItems: NavItem[] = [
   { label: 'Projects', icon: <DocumentIcon />, id: 'projects' },
   { label: 'Experience', icon: <BriefcaseIcon />, id: 'experience' },
   { label: 'Education', icon: <GraduationIcon />, id: 'education' },
-  { label: 'Certifications', icon: <BadgeIcon />, id: 'certifications' },
   { label: 'Contact', icon: <ContactIcon />, id: 'contact' },
 ];
 

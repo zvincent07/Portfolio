@@ -831,14 +831,7 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
 
   // Track which section is in view and update nav + animations
   useEffect(() => {
-    const sectionOrder = [
-      "About Me",
-      "Projects",
-      "Experience",
-      "Education",
-      "Certifications",
-      "Contact",
-    ];
+    const sectionOrder = ["About Me", "Projects", "Experience", "Education", "Contact"];
 
     // Observer for navbar highlight sync
     const navObserver = new IntersectionObserver(
@@ -1329,7 +1322,7 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
         </div>
 
         {/* === SECONDARY PROJECTS (Grid Layout) === */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* SoundSprint */}
           <a
             href="https://github.com/xKobeni/SoundSprint"
@@ -1586,45 +1579,6 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
         </div>
       </div>
     ),
-    Certifications: (
-      <div className="space-y-6">
-        <div className="grid gap-6 md:grid-cols-2">
-          {[
-            {
-              title: "AWS Certified Cloud Practitioner",
-              issuer: "Amazon Web Services",
-              date: "2024",
-            },
-            {
-              title: "React Developer Certification",
-              issuer: "Meta",
-              date: "2023",
-            },
-            {
-              title: "MongoDB Certified Developer",
-              issuer: "MongoDB University",
-              date: "2023",
-            },
-            {
-              title: "UI/UX Design Specialization",
-              issuer: "Coursera",
-              date: "2022",
-            },
-          ].map((credential, index) => (
-            <div
-              key={index}
-              className="p-6 bg-gray-800/30 border border-gray-700/50 space-y-2"
-            >
-              <h3 className="text-xl font-semibold text-white">
-                {credential.title}
-              </h3>
-              <p className="text-gray-400">{credential.issuer}</p>
-              <p className="text-gray-500 text-sm">{credential.date}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    ),
     Events: (
       <div className="space-y-6">
         <div className="space-y-6">
@@ -1683,14 +1637,7 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
   };
 
   // Section order for scrollable layout
-  const sectionOrder = [
-    "About Me",
-    "Projects",
-    "Experience",
-    "Education",
-    "Certifications",
-    "Contact",
-  ];
+  const sectionOrder = ["About Me", "Projects", "Experience", "Education", "Contact"];
 
   return (
     <div className="flex flex-col">
