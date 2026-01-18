@@ -84,10 +84,10 @@ const navItems: NavItem[] = [
 ];
 
 const socialLinks: SocialLink[] = [
-  { label: 'LinkedIn', icon: <LinkedInIcon />, href: '#' },
-  { label: 'GitHub', icon: <GitHubIcon />, href: '#' },
-  { label: 'Facebook', icon: <FacebookIcon />, href: '#' },
-  { label: 'Discord', icon: <DiscordIcon />, href: '#' },
+  { label: 'LinkedIn', icon: <LinkedInIcon />, href: 'https://www.linkedin.com/in/john-vincent-laylo-322b023a6/' },
+  { label: 'GitHub', icon: <GitHubIcon />, href: 'https://github.com/zvincent07' },
+  { label: 'Facebook', icon: <FacebookIcon />, href: 'https://www.facebook.com/zcent.vaant' },
+  { label: 'Discord', icon: <DiscordIcon />, href: 'https://discord.com/users/748703636821114972' },
 ];
 
 interface SidebarProps {

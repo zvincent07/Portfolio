@@ -17,6 +17,13 @@ import {
 } from "./Icons";
 
 export function AboutSection() {
+  const handleViewMyWork = () => {
+    const element = document.getElementById("section-projects");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 lg:gap-8 mb-8 pb-8 border-b border-gray-800/50">
@@ -66,7 +73,11 @@ export function AboutSection() {
       </p>
 
       <div className="flex flex-wrap gap-3 mt-6">
-        <button className="flex items-center gap-2 px-4 py-2 text-sm bg-white text-gray-900 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 group">
+        <button
+          type="button"
+          onClick={handleViewMyWork}
+          className="flex items-center gap-2 px-4 py-2 text-sm bg-white text-gray-900 rounded-lg font-medium hover:bg-gray-100 transition-all duration-200 group"
+        >
           View My Work
           <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </button>
