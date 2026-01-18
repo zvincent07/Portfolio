@@ -49,6 +49,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const mainRef = useRef<HTMLElement>(null);
   const isWheelScrollingRef = useRef(false);
+  const sectionPositionsRef = useRef<{ name: string; top: number }[]>([]);
   const [scrollPaddingTop, setScrollPaddingTop] = useState('4rem');
 
   // Handle loading animation on mount
@@ -137,9 +138,8 @@ function App() {
 
     const sectionOrder = ['About Me', 'Projects', 'Experience', 'Education', 'Contact'];
 
-    const handleScroll = () => {
-      let closestSection = '';
-      let minDistance = Number.POSITIVE_INFINITY;
+    const computePositions = () => {
+      const positions: { name: string; top: number }[] = [];
 
       sectionOrder.forEach((name) => {
         const element = document.getElementById(
@@ -147,28 +147,43 @@ function App() {
         );
         if (!element) return;
 
-        const rect = element.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-        const containerCenter = containerRect.top + containerRect.height / 2;
-        const sectionCenter = rect.top + rect.height / 2;
-        const distance = Math.abs(sectionCenter - containerCenter);
-
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestSection = name;
-        }
+        positions.push({
+          name,
+          top: element.offsetTop,
+        });
       });
 
-      if (!closestSection) return;
+      sectionPositionsRef.current = positions;
+    };
 
-      setActiveNavItem((prev) => (prev === closestSection ? prev : closestSection));
+    computePositions();
+
+    const handleScroll = () => {
+      const positions = sectionPositionsRef.current;
+      if (!positions.length) return;
+
+      const scrollY = container.scrollTop + container.clientHeight * 0.3;
+
+      let currentSection = positions[0].name;
+
+      for (let i = 0; i < positions.length; i += 1) {
+        if (scrollY >= positions[i].top) {
+          currentSection = positions[i].name;
+        } else {
+          break;
+        }
+      }
+
+      setActiveNavItem((prev) => (prev === currentSection ? prev : currentSection));
     };
 
     handleScroll();
     container.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', computePositions);
 
     return () => {
       container.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', computePositions);
     };
   }, []);
 
