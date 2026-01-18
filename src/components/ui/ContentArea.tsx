@@ -5,55 +5,13 @@ import { AboutSection } from "./AboutSection";
 import { ExperienceSection } from "./ExperienceSection";
 import { EducationSection } from "./EducationSection";
 
-interface ContentAreaProps {
-  activeItem: string;
-  onSectionChange: (section: string) => void;
-}
-
-export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
+export function ContentArea() {
   const [visibleSections, setVisibleSections] = useState<Set<string>>(
     new Set(["About Me"])
   );
 
-  // Track which section is in view and update nav + animations
   useEffect(() => {
     const sectionOrder = ["About Me", "Projects", "Experience", "Education", "Contact"];
-
-    // Observer for navbar highlight sync
-    const navObserver = new IntersectionObserver(
-      (entries) => {
-        // Find the most visible section
-        let mostVisibleSection = "";
-        let maxRatio = 0;
-
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
-            maxRatio = entry.intersectionRatio;
-            const sectionId = entry.target.id;
-            const sectionName = sectionOrder.find(
-              (name) =>
-                `section-${name.toLowerCase().replace(/\s+/g, "-")}` ===
-                sectionId
-            );
-            if (sectionName) {
-              mostVisibleSection = sectionName;
-            }
-          }
-        });
-
-        // Only switch highlight when one section is clearly dominant in view
-        if (
-          mostVisibleSection &&
-          mostVisibleSection !== activeItem &&
-          maxRatio >= 0.4
-        ) {
-          onSectionChange(mostVisibleSection);
-        }
-      },
-      { threshold: [0.1, 0.3, 0.5, 0.7], rootMargin: "-10% 0px -10% 0px" }
-    );
-
-    // Observer for scroll animations - tracks entering AND leaving
     const animationObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -86,16 +44,14 @@ export function ContentArea({ activeItem, onSectionChange }: ContentAreaProps) {
         `section-${name.toLowerCase().replace(/\s+/g, "-")}`
       );
       if (element) {
-        navObserver.observe(element);
         animationObserver.observe(element);
       }
     });
 
     return () => {
-      navObserver.disconnect();
       animationObserver.disconnect();
     };
-  }, [activeItem, onSectionChange]);
+  }, []);
 
   const content: Record<string, ReactElement> = {
     "About Me": <AboutSection />,

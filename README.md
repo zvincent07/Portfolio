@@ -14,7 +14,7 @@ It showcases my projects, skills, experience, education, and provides quick ways
 
 ### Install dependencies
 
-```bash
+```bash 
 npm install
 ```
 

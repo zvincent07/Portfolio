@@ -131,6 +131,47 @@ function App() {
     };
   }, [activeNavItem]);
 
+  useEffect(() => {
+    const container = mainRef.current;
+    if (!container) return;
+
+    const sectionOrder = ['About Me', 'Projects', 'Experience', 'Education', 'Contact'];
+
+    const handleScroll = () => {
+      let closestSection = '';
+      let minDistance = Number.POSITIVE_INFINITY;
+
+      sectionOrder.forEach((name) => {
+        const element = document.getElementById(
+          `section-${name.toLowerCase().replace(/\s+/g, '-')}`
+        );
+        if (!element) return;
+
+        const rect = element.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        const containerCenter = containerRect.top + containerRect.height / 2;
+        const sectionCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(sectionCenter - containerCenter);
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestSection = name;
+        }
+      });
+
+      if (!closestSection) return;
+
+      setActiveNavItem((prev) => (prev === closestSection ? prev : closestSection));
+    };
+
+    handleScroll();
+    container.addEventListener('scroll', handleScroll);
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const handleNavChange = (item: string) => {
     const sectionId = `section-${item.toLowerCase().replace(/\s+/g, '-')}`;
     const element = document.getElementById(sectionId);
@@ -141,11 +182,6 @@ function App() {
     if (window.innerWidth < 1024) {
       setSidebarOpen(false);
     }
-  };
-
-  const handleSectionChange = (section: string) => {
-    if (activeNavItem === section) return;
-    setActiveNavItem(section);
   };
 
   return (
@@ -198,7 +234,7 @@ function App() {
         }}
       >
         <div className="w-full max-w-full sm:max-w-3xl md:max-w-5xl lg:max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-0">
-          <ContentArea activeItem={activeNavItem} onSectionChange={handleSectionChange} />
+          <ContentArea />
         </div>
       </main>
 
