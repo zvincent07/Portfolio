@@ -81,10 +81,14 @@ export function AboutSection() {
           View My Work
           <ArrowRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
         </button>
-        <button className="flex items-center gap-2 px-4 py-2 text-sm bg-gray-800/50 text-white border border-gray-700 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200 group">
+        <a
+          href="/john-vincent-laylo-cv.pdf"
+          download
+          className="flex items-center gap-2 px-4 py-2 text-sm bg-gray-800/50 text-white border border-gray-700 rounded-lg font-medium hover:bg-gray-800 transition-all duration-200 group"
+        >
           <DownloadIcon className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
           Download CV
-        </button>
+        </a>
       </div>
 
       <div className="space-y-6 mt-8">
