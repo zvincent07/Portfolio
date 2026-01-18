@@ -1,73 +1,111 @@
-# React + TypeScript + Vite
+# John Vincent Laylo – Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal portfolio built with **React**, **TypeScript**, and **Vite**.  
+It showcases my projects, skills, experience, education, and provides quick ways to contact me or download my CV.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 19 + TypeScript
+- Vite 7
+- Tailwind CSS 3
+- EmailJS (contact form)
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Install dependencies
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Run the dev server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+The app runs on the port Vite chooses (usually `http://localhost:5173`).
+
+### Build for production
+
+```bash
+npm run build
+```
+
+This creates an optimized build in the `dist` folder (used by Vercel).
+
+### Lint
+
+```bash
+npm run lint
+```
+
+## Features
+
+- **Section-based layout** with smooth scroll and snap between:
+  - About Me
+  - Projects
+  - Experience
+  - Education
+  - Contact
+- **Sidebar navigation**
+  - Desktop sidebar + mobile bottom navigation
+  - Active section highlighting
+  - Social links (LinkedIn, GitHub, Facebook, Discord) opening in new tabs
+- **About section**
+  - Profile image and animated typewriter intro
+  - Tech stack chips for frontend + backend
+  - “View My Work” button scrolls directly to Projects
+  - “Download CV” button downloads `public/john-vincent-laylo-cv.pdf`
+- **Projects section**
+  - Real projects with tags and live links
+  - External links open in new tabs
+- **Experience & Education**
+  - Timeline-style cards with concise descriptions
+- **Contact section**
+  - EmailJS-powered form
+  - Keyboard shortcut: **Ctrl+Enter** to send
+  - Copy-to-clipboard email chip
+  - Links to Calendly, GitHub, LinkedIn
+
+## Toast Notifications
+
+The app uses a global toast system to show messages at the **top center** of the page.
+
+- One toast at a time (new messages replace old ones)
+- Used for:
+  - Successful contact form submission
+  - Contact form errors
+  - Successful CV download
+
+Usage inside components:
+
+```ts
+import { useToast } from "./components/ui/Toast";
+
+const { showToast } = useToast();
+
+showToast({
+  variant: "success", // or "error"
+  message: "CV downloaded successfully.",
+  duration: 4000,
+});
+```
+
+The provider is mounted in `src/main.tsx`:
+
+```tsx
+<StrictMode>
+  <ToastProvider>
+    <App />
+  </ToastProvider>
+</StrictMode>
+```
+
+## Deployment
+
+The project is configured to deploy easily on **Vercel**:
+
+- Build command: `npm run build`
+- Output directory: `dist`
+- Vercel installs dependencies and runs the build automatically on each push.
