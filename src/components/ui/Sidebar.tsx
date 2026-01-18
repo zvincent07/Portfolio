@@ -193,6 +193,8 @@ export function Sidebar({ activeItem, onNavChange, isOpen = true, onToggle }: Si
               <li key={link.label}>
                 <a
                   href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-3 px-4 py-2.5 text-gray-400 hover:text-white hover:bg-gray-800/30 transition-all duration-200 group"
                 >
                   <span className="transition-transform group-hover:scale-110">{link.icon}</span>
